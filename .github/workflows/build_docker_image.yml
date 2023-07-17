@@ -21,5 +21,5 @@ jobs:
           password: ${{ secrets.ACR_PASSWORD }}
 
       - run: |
-          docker build . -t crmrmayanger.azurecr.io/myapp:${{ github.sha }}
-          docker push crmrmayanger.azurecr.io/myapp:${{ github.sha }}
+          docker build . -t ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
