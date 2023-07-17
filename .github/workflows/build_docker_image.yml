@@ -21,5 +21,6 @@ jobs:
           password: ${{ secrets.ACR_PASSWORD }}
 
       - run: |
+          sudo yum -y install docker
           docker build . -t ${{ secrets.ACR_LOGIN_SERVER }}:${{ github.sha }}
           docker push ${{ secrets.ACR_LOGIN_SERVER }}.azurecr.io:${{ github.sha }}
