@@ -7,6 +7,10 @@ on:
     branches: [ "main" ]
 
   workflow_dispatch:
+    
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   build:
@@ -24,7 +28,8 @@ jobs:
           
           docker build . -t ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
-        
+   
+  
   build-and-deploy:
     runs-on: ubuntu-latest
           
