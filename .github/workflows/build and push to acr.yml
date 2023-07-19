@@ -22,5 +22,5 @@ jobs:
         with:
           appSourcePath: ${{ github.workspace }}/src
           acrName: "crmrmayanger"
-          containerAppName: my-container-app
-          resourceGroup: my-container-app-rg
+          containerAppName: "terraform-app"
+          resourceGroup: "pepsirg"
