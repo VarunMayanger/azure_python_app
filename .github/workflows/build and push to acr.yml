@@ -18,4 +18,14 @@ jobs:
         docker push ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
       
     
-          
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+     
+     
+    - uses: azure/container-apps-deploy-action@v1
+      with:
+        acrName: crmrmayanger
+        containerAppName: terraform-app
+        resourceGroup: pepsirg
+        imageToDeploy: crmrmayanger.azurecr.io/app:${{ github.sha }}
