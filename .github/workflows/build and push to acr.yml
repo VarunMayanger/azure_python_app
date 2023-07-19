@@ -24,8 +24,8 @@ jobs:
     
     - uses: azure/container-apps-deploy-action@v1
       with:
-          appSourcePath: ${{ github.workspace }}/src
-          acrName: crmrmayanger
-          containerAppName: terraform-app
-          resourceGroup: pepsirg
+            appSourcePath: ${{ github.workspace }}/src
+            acrName: crmrmayanger
+            containerAppName: terraform-app
+            resourceGroup: pepsirg
           
