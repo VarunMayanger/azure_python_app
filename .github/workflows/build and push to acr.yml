@@ -29,3 +29,4 @@ jobs:
         containerAppName: terraform-app
         resourceGroup: pepsirg
         imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
+        
