@@ -1,26 +1,31 @@
-name: Azure Container Apps Deploy
+name: Linux Container Node Workflow
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Log in to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Build and deploy Container App
-        uses: azure/container-apps-deploy-action@v1
-        with:
+    - uses: actions/checkout@v2
+    - uses: azure/docker-login@v1
+      with:
+        login-server:  ${{ secrets.ACR_LOGIN_SERVER }}
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+    - run: |
+        docker build . -t ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
+        docker push ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
+    - uses: azure/webapps-deploy@v2
+      with:
+          app-name: 'myapp'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: '${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}'
+    
+    - uses: azure/container-apps-deploy-action@v1
+      with:
           appSourcePath: ${{ github.workspace }}/src
-          acrName: "crmrmayanger"
-          containerAppName: "terraform-app"
-          resourceGroup: "pepsirg"
+          acrName: crmrmayanger
+          containerAppName: terraform-app
+          resourceGroup: pepsirg
+          
