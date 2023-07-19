@@ -28,4 +28,4 @@ jobs:
         acrName: crmrmayanger
         containerAppName: terraform-app
         resourceGroup: pepsirg
-        imageToDeploy: crmrmayanger.azurecr.io/app:${{ github.sha }}
+        imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
