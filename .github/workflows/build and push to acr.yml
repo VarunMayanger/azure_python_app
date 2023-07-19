@@ -17,10 +17,5 @@ jobs:
         docker build . -t ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
         docker push ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
       
-    - uses: azure/container-apps-deploy-action@v1
-      with:
-            appSourcePath: ${{ github.workspace }}/src
-            acrName: crmrmayanger
-            containerAppName: terraform-app
-            resourceGroup: pepsirg
+    
           
