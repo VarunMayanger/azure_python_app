@@ -23,3 +23,13 @@ jobs:
       - run: |
           docker build . -t ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
+
+       
+      - uses: azure/webapps-deploy@v2
+        with:
+            app-name: 'myapp'
+            images: '${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}'
+        
+      - name: Azure logout
+        run: |
+            az logout
