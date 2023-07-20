@@ -1,26 +1,25 @@
-name: Azure Container Apps Deploy
+name: Build a Docker image and Push it to ACR
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Log in to Azure
-        uses: azure/login@v1
+      - uses: actions/checkout@v2
+      
+      - uses: azure/docker-login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          login-server:  ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Build and deploy Container App
-        uses: azure/container-apps-deploy-action@v1
-        with:
-          appSourcePath: ${{ github.workspace }}
-          acrName: crmrmayanger
-          containerAppName: terraform-app
-          resourceGroup: pepsirg
+      - run: |
+          docker build . -t ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}
